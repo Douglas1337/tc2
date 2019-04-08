@@ -5,8 +5,9 @@ from time import sleep
 import capturaImagens
 import cv2
 import numpy as np
+import math
 
-
+##le a imagem
 img = cv2.imread('blue.jpg')
 imgH = img.shape[0]
 imgW = img.shape[1]
@@ -16,8 +17,9 @@ imgW = img.shape[1]
 
 arrayDeRs=[]
 arrayDeGs=[]
-arrayDebs=[]
+arrayDeBs=[]
 
+# na imagem ele separa o R, G, B de cada pixel em posicoes do array
 for x in range (imgH):
     for w in range (imgW):
         pxVal= np.array(img[x,w])
@@ -25,17 +27,23 @@ for x in range (imgH):
         arrayDeGs.append(pxVal[1])
         arrayDeBs.append(pxVal[2])
         
-# Primeira Técnica
-vRs = sum(arrayDeRs)
-vGs = sum(arrayDeGs)
-vBs = sum(arrayDeBs)
+# Primeira Tecnica
 
-#potenciação de cada banda
-vRs = vRs**
-vGs = vGs**
-vBs = vBs**
+# Potencia de 2 em todos os Rs, Gs e Bs da imagem
+arrayDeRs = np.power(arrayDeRs,2)
+arrayDeGs = np.power(arrayDeGs,2)
+arrayDeBs = np.power(arrayDeBs,2)
 
-sTot = vRs + vGs + vBs
+intensidadeDeCadaPixel = np.empty(0);
 
-#Raiz quadrada de tudo
-sTot = (sTot ** 1/2)
+
+## -- AINDA NAO ACABADO -- ###
+for x in np.nditer (arrayDeRs):
+    u = math.sqrt(arrayDeRs[x]+arrayDeGs[x]+arrayDeBs[x])
+    np.append(intensidadeDeCadaPixel,u)
+    
+print(u)
+   ## np.append(intensidadeDeCadaPixel,u)
+    
+    
+    
