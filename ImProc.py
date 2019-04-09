@@ -7,43 +7,46 @@ import cv2
 import numpy as np
 import math
 
-##le a imagem
-img = cv2.imread('blue.jpg')
-imgH = img.shape[0]
-imgW = img.shape[1]
-#cv2.imshow('image',img)
-#cv2.waitKey(0)
-#cv2.destroyAllWindows()
+class ImProc:
+    
+    def firstTec(color):
 
-arrayDeRs=[]
-arrayDeGs=[]
-arrayDeBs=[]
+        ##le a imagem
+        img = cv2.imread('color.jpg')
+        imgH = img.shape[0]
+        imgW = img.shape[1]
+        #cv2.imshow('image',img)
+        #cv2.waitKey(0)
+        #cv2.destroyAllWindows()
 
-# na imagem ele separa o R, G, B de cada pixel em posicoes do array
-for x in range (imgH):
-    for w in range (imgW):
-        pxVal= np.array(img[x,w])
-        arrayDeRs.append(pxVal[0])
-        arrayDeGs.append(pxVal[1])
-        arrayDeBs.append(pxVal[2])
+        arrayDeRs=[]
+        arrayDeGs=[]
+        arrayDeBs=[]
+
+        # na imagem ele separa o R, G, B de cada pixel em posicoes do array
+        for x in range (imgH):
+            for w in range (imgW):
+                pxVal= np.array(img[x,w])
+                arrayDeRs.append(pxVal[0])
+                arrayDeGs.append(pxVal[1])
+                arrayDeBs.append(pxVal[2])
+                
+        # Primeira Tecnica
+
+        # Potencia de 2 em todos os Rs, Gs e Bs da imagem
+        arrayDeRs = np.power(arrayDeRs,2)
+        arrayDeGs = np.power(arrayDeGs,2)
+        arrayDeBs = np.power(arrayDeBs,2)
+
+        intensidadeDeCadaPixel = np.zeros(shape=(480000));
+        #Soma os RGBs
+        intensidadeDeCadaPixel = arrayDeRs +arrayDeGs+arrayDeBs
+        #sqrt de cada pixel
+        intensidadeDeCadaPixel = np.sqrt(intensidadeDeCadaPixel)
+        return intensidadeDeCadaPixel
+    
+    def secondTec(color)
         
-# Primeira Tecnica
-
-# Potencia de 2 em todos os Rs, Gs e Bs da imagem
-arrayDeRs = np.power(arrayDeRs,2)
-arrayDeGs = np.power(arrayDeGs,2)
-arrayDeBs = np.power(arrayDeBs,2)
-
-intensidadeDeCadaPixel = np.empty(0);
-
-
-## -- AINDA NAO ACABADO -- ###
-for x in np.nditer (arrayDeRs):
-    u = math.sqrt(arrayDeRs[x]+arrayDeGs[x]+arrayDeBs[x])
-    np.append(intensidadeDeCadaPixel,u)
-    
-print(u)
-   ## np.append(intensidadeDeCadaPixel,u)
-    
-    
-    
+            
+            
+            
