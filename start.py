@@ -16,10 +16,10 @@ from time import sleep
 import capturaImagens
 import cv2
 
-choice =input("Pressione 1 para iniciar: \n ")
+#choice =input("Pressione 1 para iniciar: \n ")
 
-while choice != 1:
-    choice = input("Pressione 1 para iniciar: \n")
+#while choice != 1:
+#    choice = input("Pressione 1 para iniciar: \n")
 
 #camera.close()
 captura = capturaImagens.CapturaImagens()

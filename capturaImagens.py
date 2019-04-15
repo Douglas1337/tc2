@@ -1,6 +1,8 @@
 import RPi.GPIO as GPIO
 from picamera import PiCamera
 import time
+from PIL import Image
+import numpy as np
     
 class CapturaImagens:
     gpios = [(18,6),(23,25),(27,24),(12,17),(22,21)]
@@ -10,7 +12,23 @@ class CapturaImagens:
         # W = Branco G=Verde, R=Verm, Y=Amarelo, B=Azul
         try:
             camera = PiCamera()
-            camera.start_preview(alpha = 128, fullscreen=False, window=(300,300,640,480))
+            camera.resolution = (800,600)
+            camera.start_preview()
+            ##Parte de incluir a ROI no preview da camera
+            img = Image.open('overlay.png')
+            pad = Image.new('RGB',
+                    (((img.size[0] + 31)//32)*32,
+                     ((img.size[1] + 15)//16) * 16,
+                     ))
+            pad.paste(img,(0,0))
+            o = camera.add_overlay(pad.tostring(),size = img.size)
+            o.alpha = 128
+            o.layer = 3
+            
+            choice =input("Pressione 1 para iniciar: \n ")
+            while choice != 1:
+                choice = input("Pressione 1 para iniciar: \n")
+            
             GPIO.setmode(GPIO.BCM)
             for x in range(len(self.gpios)):
                 GPIO.setup(self.gpios[x][0],GPIO.OUT)
