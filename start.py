@@ -15,6 +15,7 @@ import time
 from time import sleep
 import capturaImagens
 import cv2
+import sys
 
 #choice =input("Pressione 1 para iniciar: \n ")
 
@@ -22,5 +23,6 @@ import cv2
 #    choice = input("Pressione 1 para iniciar: \n")
 
 #camera.close()
+overlay = sys.argv[1]
 captura = capturaImagens.CapturaImagens()
-captura.captura()
+captura.captura(overlay)
