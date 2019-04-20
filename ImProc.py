@@ -12,7 +12,7 @@ class ImProc:
     def firstTec(color):
 
         ##le a imagem
-        img = cv2.imread('color.jpg')
+        img = cv2.imread(color+'.jpg')
         imgH = img.shape[0]
         imgW = img.shape[1]
         #cv2.imshow('image',img)
@@ -38,7 +38,7 @@ class ImProc:
         arrayDeGs = np.power(arrayDeGs,2)
         arrayDeBs = np.power(arrayDeBs,2)
 
-        intensidadeDeCadaPixel = np.zeros(shape=(480000));
+        intensidadeDeCadaPixel = np.zeros(shape=(imgH*imgW));
         #Soma os RGBs
         intensidadeDeCadaPixel = arrayDeRs +arrayDeGs+arrayDeBs
         #sqrt de cada pixel
