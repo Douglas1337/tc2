@@ -14,6 +14,7 @@ import RPi.GPIO as GPIO
 import time
 from time import sleep
 import capturaImagens
+import ImProc
 import cv2
 import sys
 
@@ -26,3 +27,16 @@ import sys
 overlay = sys.argv[1]
 captura = capturaImagens.CapturaImagens()
 captura.captura(overlay)
+
+
+##pega o tamanho da imagem
+tamanhoImg = str(overlay)
+
+listaDeCores = ['green','red','white','yellow','blue']
+intensidadeDePixelsEmCadaCor=[]
+for x in range (len(listaDeCores)):
+    processamento = ImProc.ImProc()
+    process = processamento.firstTec(listaDeCores[x],tamanhoImg)
+    intensidadeDePixelsEmCadaCor.append(process)
+print (len(intensidadeDePixelsEmCadaCor[1]))
+

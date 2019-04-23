@@ -8,11 +8,16 @@ import numpy as np
 import math
 
 class ImProc:
+    path = '/home/pi/Documents/tc2/'
     
-    def firstTec(color):
+    
+    def firstTec(self,cor,overlay):
 
         ##le a imagem
-        img = cv2.imread(color+'.jpg')
+        nomeArquivo = 'CRPD_'+overlay+cor+'.jpg'
+        print(nomeArquivo)
+        
+        img = cv2.imread(self.path+nomeArquivo)
         imgH = img.shape[0]
         imgW = img.shape[1]
         #cv2.imshow('image',img)
@@ -44,9 +49,3 @@ class ImProc:
         #sqrt de cada pixel
         intensidadeDeCadaPixel = np.sqrt(intensidadeDeCadaPixel)
         return intensidadeDeCadaPixel
-    
-    def secondTec(color)
-        
-            
-            
-            
