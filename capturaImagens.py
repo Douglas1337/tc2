@@ -14,7 +14,7 @@ class CapturaImagens:
         try:
             camera = PiCamera()
             camera.resolution = (800,600)
-            camera.start_preview()
+            camera.start_preview(alpha=128)
             ##Parte de incluir a ROI no preview da camera
             
             if(int(overlay) == 64):
@@ -22,10 +22,7 @@ class CapturaImagens:
             else:
                 img = Image.open('overlay128.png')
             
-            pad = Image.new('RGB',
-                    (((img.size[0] + 31)//32)*32,
-                     ((img.size[1] + 15)//16) * 16,
-                     ))
+            pad = Image.new('RGB',(((img.size[0] + 31)//32)*32,((img.size[1] + 15)//16) * 16,))
             pad.paste(img,(0,0))
             o = camera.add_overlay(pad.tostring(),size = img.size)
             o.alpha = 128
@@ -34,8 +31,9 @@ class CapturaImagens:
             choice =input("Pressione 1 para iniciar: \n ")
             while choice != 1:
                 choice = input("Pressione 1 para iniciar: \n")
-            
+            GPIO.setwarnings(False)
             GPIO.setmode(GPIO.BCM)
+            
             for x in range(len(self.gpios)):
                 GPIO.setup(self.gpios[x][0],GPIO.OUT)
                 GPIO.setup(self.gpios[x][1],GPIO.OUT)
@@ -46,62 +44,63 @@ class CapturaImagens:
                     camera.capture(self.path+'white.jpg',resize=(800,600))
                     if(int(overlay) == 64):
                         img2crp = cv2.imread(self.path+'white.jpg')
-                        crpd_img= img2crp[268:330,368:430]
+                        crpd_img= img2crp[268:332,368:432]
                         cv2.imwrite(self.path+'CRPD_64'+'white.jpg',crpd_img)
                     else:
                         img2crp = cv2.imread(self.path+'white.jpg')
-                        crpd_img= img2crp[236:362,336:462]
+                        crpd_img= img2crp[236:364,336:464]
                         cv2.imwrite(self.path+'CRPD_128'+'white.jpg',crpd_img)
                         
                 elif(x==1):
                     camera.capture(self.path+'green.jpg',resize=(800,600))
                     if(int(overlay) == 64):
                         img2crp = cv2.imread(self.path+'green.jpg')
-                        crpd_img= img2crp[268:330,368:430]
+                        crpd_img= img2crp[268:332,368:432]
                         cv2.imwrite(self.path+'CRPD_64'+'green.jpg',crpd_img)
                     else:
                         img2crp = cv2.imread(self.path+'green.jpg')
-                        crpd_img= img2crp[236:362,336:462]
+                        crpd_img= img2crp[236:364,336:464]
                         cv2.imwrite(self.path+'CRPD_128'+'green.jpg',crpd_img)
                 elif(x==2):
                     camera.capture(self.path+'red.jpg',resize=(800,600))
                     if(int(overlay) == 64):
                         img2crp = cv2.imread(self.path+'red.jpg')
-                        crpd_img= img2crp[268:330,368:430]
+                        crpd_img= img2crp[268:332,368:432]
                         cv2.imwrite(self.path+'CRPD_64'+'red.jpg',crpd_img)
                     else:
                         img2crp = cv2.imread(self.path+'red.jpg')
-                        crpd_img= img2crp[236:362,336:462]
+                        crpd_img= img2crp[236:364,336:464]
                         cv2.imwrite(self.path+'CRPD_128'+'red.jpg',crpd_img)
                 elif(x==3):
                     camera.capture(self.path+'yellow.jpg',resize=(800,600))
                     if(int(overlay) == 64):
                         img2crp = cv2.imread(self.path+'yellow.jpg')
-                        crpd_img= img2crp[268:330,368:430]
+                        crpd_img= img2crp[268:332,368:432]
                         cv2.imwrite(self.path+'CRPD_64'+'yellow.jpg',crpd_img)
                     else:
                         img2crp = cv2.imread(self.path+'yellow.jpg')
-                        crpd_img= img2crp[236:362,336:462]
+                        crpd_img= img2crp[236:364,336:464]
                         cv2.imwrite(self.path+'CRPD_128'+'yellow.jpg',crpd_img)
                 elif(x==4):
                     camera.capture(self.path+'blue.jpg',resize=(800,600))
                     if(int(overlay) == 64):
                         img2crp = cv2.imread(self.path+'blue.jpg')
-                        crpd_img= img2crp[268:330,368:430]
+                        crpd_img= img2crp[268:332,368:432]
                         cv2.imwrite(self.path+'CRPD_64'+'blue.jpg',crpd_img)
                     else:
                         img2crp = cv2.imread(self.path+'blue.jpg')
-                        crpd_img= img2crp[236:362,336:462]
+                        crpd_img= img2crp[236:364,336:464]
                         cv2.imwrite(self.path+'CRPD_128'+'blue.jpg',crpd_img)
                     
                 ##camera.stop_preview()
                 GPIO.output(self.gpios[x][0],False)
                 GPIO.output(self.gpios[x][1],False)
             camera.stop_preview()
-            GPIO.cleanup()
+            #GPIO.cleanup()
             camera.stop_preview()
             pass
         finally:
+            GPIO.cleanup()
             camera.close()
                 
             
@@ -109,4 +108,4 @@ class CapturaImagens:
         
     
     
-    
+        

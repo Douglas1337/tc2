@@ -2,50 +2,48 @@ import picamera
 import RPi.GPIO as GPIO
 import time
 from time import sleep
+from PIL import Image
+import matplotlib.pyplot as plt
 import capturaImagens
 import cv2
 import numpy as np
 import math
+import os
+
 
 class ImProc:
-    path = '/home/pi/Documents/tc2/'
+    path = '/home/pi/Documents/tc2/histogramas/'
     
     
-    def firstTec(self,cor,overlay):
-
-        ##le a imagem
-        nomeArquivo = 'CRPD_'+overlay+cor+'.jpg'
-        print(nomeArquivo)
+    def histogramas(self,nome,cores,overlay):
         
-        img = cv2.imread(self.path+nomeArquivo)
-        imgH = img.shape[0]
-        imgW = img.shape[1]
-        #cv2.imshow('image',img)
-        #cv2.waitKey(0)
-        #cv2.destroyAllWindows()
+        
+        RGBArray = np.empty([0])
+    #concatena todos os RGB de das cores 'green','red','white','yellow','blue' nesta ordem
+        
+        for x in range(len(cores)):
+            nomeArquivo = 'CRPD_'+overlay+cores[x]+'.jpg'
+            #img = cv2.imread(self.path+nomeArquivo)
+            img = cv2.imread(nomeArquivo)
+            bgr= cv2.split(img)
+            histB= np.array(cv2.calcHist(bgr,[0],None,[256],[0,256]))
+            RGBArray = np.append(RGBArray,histB)
+            histG= np.array(cv2.calcHist(bgr,[1],None,[256],[0,256]))
+            RGBArray = np.append(RGBArray,histG)
+            histR= np.array(cv2.calcHist(bgr,[2],None,[256],[0,256]))
+            RGBArray = np.append(RGBArray,histB)
 
-        arrayDeRs=[]
-        arrayDeGs=[]
-        arrayDeBs=[]
-
-        # na imagem ele separa o R, G, B de cada pixel em posicoes do array
-        for x in range (imgH):
-            for w in range (imgW):
-                pxVal= np.array(img[x,w])
-                arrayDeRs.append(pxVal[0])
-                arrayDeGs.append(pxVal[1])
-                arrayDeBs.append(pxVal[2])
-                
-        # Primeira Tecnica
-
-        # Potencia de 2 em todos os Rs, Gs e Bs da imagem
-        arrayDeRs = np.power(arrayDeRs,2)
-        arrayDeGs = np.power(arrayDeGs,2)
-        arrayDeBs = np.power(arrayDeBs,2)
-
-        intensidadeDeCadaPixel = np.zeros(shape=(imgH*imgW));
-        #Soma os RGBs
-        intensidadeDeCadaPixel = arrayDeRs +arrayDeGs+arrayDeBs
-        #sqrt de cada pixel
-        intensidadeDeCadaPixel = np.sqrt(intensidadeDeCadaPixel)
-        return intensidadeDeCadaPixel
+        #se o arquivo existe
+        if(os.path.isfile(self.path+'Todos.csv')): #SE SIM 
+            csv=np.genfromtxt(self.path+'Todos.csv', delimiter='\t') #LE O ARRAY EXISTENTE
+            data = np.array(csv) #TRANSFORMA NUM NPARRAY
+            data = np.column_stack((data,RGBArray)) #STACK COLOCA EM OUTRA COLUNA
+            np.savetxt(self.path+'Todos.csv',data, delimiter='\t',fmt='%d')
+                          
+        else: #SENAO
+            f = open(self.path+'Todos.csv','w+') #CRIA O CSV
+            csv=np.genfromtxt(self.path+'Todos.csv', delimiter='\t')
+            data = np.array(csv)
+            b = np.append(data,RGBArray)
+            np.savetxt(self.path+'Todos.csv',b,delimiter='\t',fmt='%d') #E ESCREVE O ARRAY NA COLUNA
+        
