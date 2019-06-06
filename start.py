@@ -19,28 +19,7 @@ import numpy as np
 import cv2
 import sys
 import os
-'''
-###############################################
-##arr = array lido na img atual               #
-##path = caminho do arquivo que tem a planilha#
-# ESTA FUNCAO RECEBE CADA COR DE CADA AMOSTRA #
-# JUNTA TODAS OS RESULTADOS SEPARADOS POR COR #
-###############################################
-def createCSV(arr,path):
-    #print(arr)
-    #print(path)
-    csv = np.genfromtxt(path,delimiter=',')
-    data = np.array(csv)
-    newData = arr
-    if(len(data)==0):
-        data = np.concatenate((data,newData),axis=0)
-    else:
-        data = np.column_stack((data,newData))
-        
-    np.savetxt(path,data,delimiter=',',fmt='%f')  
-
-################################################
-'''    
+ 
     
 path = '/home/pi/Documents/tc2/'
 
@@ -51,34 +30,9 @@ captura.captura(overlay)
 
 tamanhoImg = str(overlay)
 nomeAmostra =raw_input("ID Amostra: \n")
-#print(nomeAmostra)
 listaDeCores = ['green','red','white','yellow','blue']
-#intensidadeDePixelsEmCadaCor=[]
-#for x in range (len(listaDeCores)):
 processamento = ImProc.ImProc()
-#process = processamento.firstTec(nomeAmostra,listaDeCores[x],tamanhoImg)
 processamento.histogramas(nomeAmostra,listaDeCores,tamanhoImg)
-#intensidadeDePixelsEmCadaCor.append(process)
-
-
-
-
-'''
-#SALVA TODOS OS ARRAYS DE UMA COR EM UM CSV
-
-nomeAmostra =raw_input("Digite a idendificação da amostra \n")
-
-caminhoAmostra = path+"planilhas/Todos/"+nomeAmostra+".csv"
-
-
-print(caminhoAmostra)
-with open(caminhoAmostra,"w")as empty_csv:##apenas cria o arquivo
-    pass
-for x in range(len(intensidadeDePixelsEmCadaCor)):
-    
-    createCSV(intensidadeDePixelsEmCadaCor[x],caminhoAmostra)
-
-################################################################
 
 
 
@@ -103,5 +57,5 @@ a4 = np.asarray(intensidadeDePixelsEmCadaCor[4])
 np.savetxt(path+"planilhas/blue.csv", a4,delimiter=",", fmt='%f')
 caminhoTodos = path+"planilhas/Blue/Blue.csv"
 createCSV(a4,caminhoTodos)
-'''
+
 
