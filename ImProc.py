@@ -31,7 +31,7 @@ class ImProc:
             histG= np.array(cv2.calcHist(bgr,[1],None,[256],[0,256]))
             RGBArray = np.append(RGBArray,histG)
             histR= np.array(cv2.calcHist(bgr,[2],None,[256],[0,256]))
-            RGBArray = np.append(RGBArray,histB)
+            RGBArray = np.append(RGBArray,histR)
 
         #se o arquivo existe
         if(os.path.isfile(self.path+'Todos.csv')): #SE SIM 
